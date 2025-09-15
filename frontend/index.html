@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>2-tier front</title>
+</head>
+<body>
+  <h1>Frontend</h1>
+  <p id="msg">Calling backend...</p>
+  <button id="call">Call Backend</button>
+
+  <script>
+    const msg = document.getElementById('msg');
+    const callBtn = document.getElementById('call');
+
+    async function callApi() {
+      try {
+        // backend service will be reachable at http://backend:3000 when using docker-compose
+        const resp = await fetch('/api'); // when using compose + proxy, we will route to backend via nginx-free setup below
+        const data = await resp.json();
+        msg.textContent = 'Backend says: ' + data.message + ' at ' + data.time;
+      } catch (e) {
+        msg.textContent = 'Failed to call backend: ' + e.message;
+      }
+    }
+
+    // call once on load
+    callBtn.addEventListener('click', callApi);
+    callApi();
+  </script>
+</body>
+</html>

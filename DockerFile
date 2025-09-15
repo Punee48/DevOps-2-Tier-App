@@ -1,0 +1,20 @@
+FROM node:18-alpine
+
+#Specify working directory
+WORKDIR /app
+
+#This command is used to copy all the files from the file starting with a package directory to the working directory
+COPY package*.json ./
+
+#Install all the dependencies 
+RUN npn install --production
+
+#Copy all the files from the current directory to the working directory
+COPY . . 
+
+#Specify the Environment port
+ENV PORT=3000
+
+EXPOSE 3000 
+
+CMD [ "npm", "start" ]
